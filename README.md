@@ -2,6 +2,6 @@ HTML And CSS setup with Node JS unsing EJS Engine
 
 1. Clone Project
 2. Run "npm install"
-3. Run "nodemon"
+3. Run "npx nodemon app.js"
 
-Demo URL : https://node-js-setup-with-html-css-js-and-ejs.vercel.app/
+Demo URL : http://localhost:3000/
