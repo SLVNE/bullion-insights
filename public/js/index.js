@@ -221,3 +221,16 @@ const handleCheckboxChange = async (checkbox) => {
     }
     chart.timeScale().fitContent();
   });
+
+  document.querySelectorAll('.toggle-option input[type="radio"]').forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+      const h3Elements = document.querySelectorAll('.price-chart');
+      h3Elements.forEach(h3 => {
+        if (event.target.id === 'silver') {
+          h3.style.color = '#C0C0C0';
+        } else if (event.target.id === 'gold') {
+          h3.style.color = 'gold';
+        }
+      });
+    });
+  });

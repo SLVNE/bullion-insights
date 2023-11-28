@@ -3,6 +3,55 @@
     font-weight: bold; 
 }
 
+h3 {
+    color: silver;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+  }
+
+.toggle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 10%;
+  }
+  
+  .toggle-option {
+    display: flex;
+    justify-content: center;
+    width: 80px;
+    padding-bottom: 10px;
+  }
+  
+  .toggle-option input[type="radio"] {
+    display: none;
+  }
+  
+  .toggle-option label {
+    display: block;
+    width: 80px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-color: #000;
+    color: #000;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+  }
+  
+  #silver:checked + label {
+    background-color: #C0C0C0;
+    color: #fff;
+  }
+  
+  #gold:checked + label {
+    background-color: gold;
+    color: #000;
+  }
+  
 .color-box {
     display: inline-block;
     width: 10px;
@@ -15,6 +64,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 300px;
     padding: 3% 20%; /* Add horizontal padding */
 }
 
@@ -121,17 +171,21 @@ body {
 }
 
 .chart-heading {
-    width: 94%;
-    text-align: left;
-    padding-left: 3%;
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 6%;
     margin-top: 3%;
     display: flex;
     justify-content: space-between; /* Align items to the left */
     align-items: center;
 }
 
+.vendorDropDown {
+    margin-left: -5%;
+  }
+
 .checkbox-container {
-    margin: 0px 100px 50px 50px; /* This adds 20px of margin to the top, and 50px to the left and right sides of the div */
+    margin: 0px 100px 2% 50px; /* This adds 20px of margin to the top, and 50px to the left and right sides of the div */
     display: flex;
     justify-content: space-between;
     align-items: center;

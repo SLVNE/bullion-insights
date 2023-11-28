@@ -32,16 +32,11 @@
       <div class="flex-item d-flex"><a class="p-2 link-secondary" style="text-decoration:none;" href="#">South Africa</a></div>
    </div> 
 
-  <div class="chart-heading">
-    <h3>Real Price Chart:</h3>
+   <div class="chart-heading">
     <div>
-      <input type="radio" id="silver" name="metal" value="silver" checked>
-      <label for="silver">Silver</label>
+      <h3 class="price-chart">Real Price Chart:</h3>
     </div>
-    <div>
-      <input type="radio" id="gold" name="metal" value="gold">
-      <label for="gold">Gold</label>  
-    </div>
+    <div id='realPriceChart' class="vendorDropDown"></div>
     <div>
       <span class="color-box" id="color-option1"></span>
       <label for="option1">Show Spot Price</label>
@@ -77,11 +72,21 @@
       <label for="option6">Kangaroos</label>
       <input type="checkbox" id="option6" name="option6">
     </div>
-    <div id='realPriceChart'></div>
+</div>
+
+<div class="toggle">
+  <div class="toggle-option">
+    <input type="radio" id="silver" name="metal" value="silver" checked>
+    <label for="silver">Silver</label>
+  </div>
+  <div class="toggle-option">
+    <input type="radio" id="gold" name="metal" value="gold">
+    <label for="gold">Gold</label>  
+  </div>
 </div>
 
   <div class="chart-heading">
-    <h3>Spot Price Chart:</h3>
+    <h3 class="price-chart">Spot Price Chart:</h3>
   </div>
 
   <div class="border-top" id="tvchart-spot-gold"></div>
