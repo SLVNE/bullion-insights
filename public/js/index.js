@@ -7,7 +7,7 @@ let chart; // Define chart in the global scope
 
 // Define a mapping from checkbox id to category
 let categoryMapping = {
-  'option1': 'silver-royal-britannias',
+  'option1': 'spot-silver',
   'option2': 'silver-american-eagles',
   'option3': 'silver-canadian-maple-leafs',
   'option4': 'silver-austrian-philharmonics',
@@ -52,7 +52,7 @@ document.getElementsByName('metal').forEach(function(radio) {
         getAveragePrice('gold')
         // Change the categoryMapping to gold if the gold radio button is selected
         categoryMapping = {
-          'option1': 'gold-royal-britannias',
+          'option1': 'spot-gold',
           'option2': 'gold-american-eagles',
           'option3': 'gold-canadian-maple-leafs',
           'option4': 'gold-austrian-philharmonics',
@@ -63,7 +63,7 @@ document.getElementsByName('metal').forEach(function(radio) {
         getAveragePrice('silver')
         // Change the categoryMapping back to silver if the silver radio button is selected
         categoryMapping = {
-          'option1': 'silver-royal-britannias',
+          'option1': 'spot-silver',
           'option2': 'silver-american-eagles',
           'option3': 'silver-canadian-maple-leafs',
           'option4': 'silver-austrian-philharmonics',
@@ -179,6 +179,11 @@ const handleCheckboxChange = async (checkbox) => {
   if (checkbox.checked) {
     // If the checkbox is checked, add a new line series to the chart
     const lineSeries = chart.addLineSeries({ color: colors[parseInt(checkbox.id.replace('option', '')) - 1] });
+    console.log(checkbox.id)
+    // the first id to be checked against the spot checkbox to change vendor for the spot price
+    const isFirstChild = checkbox.id === "option1";
+    // if it is the first child, change the vendor to spot
+    vendor = isFirstChild ? 'spot' : vendor;
     const klinedata = await getLineData(vendor, category).catch(e => console.error('Error:', e));
     lineSeries.setData(klinedata);
     lineSeriesMapping[checkbox.id] = lineSeries;
