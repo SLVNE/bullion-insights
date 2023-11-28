@@ -3,6 +3,14 @@
     font-weight: bold; 
 }
 
+.color-box {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    visibility: hidden;
+}
+
 .radio-buttons {
     display: flex;
     justify-content: space-between;

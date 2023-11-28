@@ -31,6 +31,33 @@ app.get('/data', async (req, res) => {
   }
 });
 
+// Define a GET route for '/average' that takes 'category' as a query parameter
+app.get('/average', async (req, res) => {
+  const { category } = req.query;
+  if (!category) {
+    return res.status(400).send('Missing category parameter');
+  }
+
+  try {
+    // Query the database for the average price where 'category' matches the provided parameter and the date is the latest for that category
+    const query = `
+      SELECT AVG(price) 
+      FROM public.data 
+      WHERE date = (
+        SELECT MAX(date) 
+        FROM public.data
+        WHERE category LIKE $1
+      ) AND category LIKE $1;
+    `;
+    const values = [category + '%'];
+    const result = await db.query(query, values);
+    res.json(result.rows); // Send the result back to the client as JSON
+  } catch (err) {
+    console.error(err); // Log any errors to the console
+    res.status(500).send('Internal Server Error'); // Send a 500 status code for internal server errors
+  }
+});
+
 // Use the custom routes module for all other routes
 app.use('/', route);
 

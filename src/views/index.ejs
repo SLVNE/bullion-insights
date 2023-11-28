@@ -18,8 +18,8 @@
           <div class="col-4 text-center">
             <a class="header-brand" href="/index.html">Bullion Insights</a>
           </div>
-          <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="header-element no-hover" href="#">Today's Real: $1967</a>
+          <div class="col-4 d-flex justify-content-end align-items-center" title="This shows today's average real price calculated for the selected metal">
+            <a class="header-element header-today no-hover" href="#">Today's Real: $</a>
           </div>
         </div>
     </header>
@@ -42,31 +42,42 @@
       <input type="radio" id="gold" name="metal" value="gold">
       <label for="gold">Gold</label>  
     </div>
+    <div>
+      <span class="color-box" id="color-option1"></span>
+      <label for="option1">Show Spot Price</label>
+      <input type="checkbox" id="option1" name="option1" checked>  
+    </div>
   </div>
 
   <div class="border-top" id="tvchart-real-gold"></div>
 
   <div class="checkbox-container">
     <div>
-        <label for="option1">Eagles</label>
-        <input type="checkbox" id="option1" name="option1" checked>  
+      <span class="color-box" id="color-option2"></span>
+      <label for="option2">Eagles</label>
+      <input type="checkbox" id="option2" name="option2">
     </div>
     <div>
-        <label for="option2">Kangaroos</label>
-        <input type="checkbox" id="option2" name="option2">
+      <span class="color-box" id="color-option3"></span>
+      <label for="option3">Maple Leafs</label>
+      <input type="checkbox" id="option3" name="option3">
     </div>
     <div>
-        <label for="option3">Maple Leafs</label>
-        <input type="checkbox" id="option3" name="option3">
+      <span class="color-box" id="color-option4"></span>
+      <label for="option4">Philarmonics</label>
+      <input type="checkbox" id="option4" name="option4">
     </div>
     <div>
-        <label for="option4">Philarmonics</label>
-        <input type="checkbox" id="option4" name="option4">
+      <span class="color-box" id="color-option5"></span>
+      <label for="option5">Krugerrands</label>
+      <input type="checkbox" id="option5" name="option5">
     </div>
     <div>
-        <label for="option5">Krugerrands</label>
-        <input type="checkbox" id="option5" name="option5">
+      <span class="color-box" id="color-option6"></span>
+      <label for="option6">Kangaroos</label>
+      <input type="checkbox" id="option6" name="option6">
     </div>
+    <div id='realPriceChart'></div>
 </div>
 
   <div class="chart-heading">
