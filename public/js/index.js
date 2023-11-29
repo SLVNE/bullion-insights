@@ -45,6 +45,26 @@ const getAveragePrice = async (category) => {
   }
 };
 
+async function updateSpotPrice(category) {
+  const response = await fetch(`/latest-spot-price?category=${encodeURIComponent(category)}`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const spotPriceElement = document.getElementById('header-spot');
+
+  if (data && data.price) {
+    spotPriceElement.textContent = `Today's Spot: $${Number(data.price).toFixed(2)}`;
+  } else {
+    spotPriceElement.textContent = `Today's Spot: N/A`;
+  }
+}
+
+// Call the function with 'spot-silver' or 'spot-gold'
+updateSpotPrice('spot-silver');
+
 const getCheapestPrice = async (category) => {
   try {
     const response = await fetch(`/api/cheapest-price/${category}`);
@@ -85,6 +105,7 @@ fillCoinData("silver");
 document.getElementsByName('metal').forEach(function(radio) {
     radio.addEventListener('change', function() {
       if (this.value === 'gold') {
+        updateSpotPrice('spot-gold');
         getAveragePrice('gold');
         fillCoinData("gold");
         // Change the categoryMapping to gold if the gold radio button is selected
@@ -97,6 +118,7 @@ document.getElementsByName('metal').forEach(function(radio) {
           'option6': 'gold-australian-kangaroos',
         };
       } else {
+        updateSpotPrice('spot-silver');
         getAveragePrice('silver');
         fillCoinData("silver");
         // Change the categoryMapping back to silver if the silver radio button is selected

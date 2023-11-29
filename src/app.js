@@ -31,6 +31,31 @@ app.get('/data', async (req, res) => {
   }
 });
 
+// Define a GET route for '/latest-spot-price' that takes 'category' as a query parameter
+app.get('/latest-spot-price', async (req, res) => {
+  const { category } = req.query;
+  if (!category) {
+    return res.status(400).send('Missing category parameter');
+  }
+
+  try {
+    // Query the database for the latest price where 'vendor' is 'spot' and 'category' matches the provided parameter
+    const query = 'SELECT * FROM data WHERE vendor = $1 AND category = $2 ORDER BY date DESC LIMIT 1;';
+    const values = ['spot', category];
+    const result = await db.query(query, values);
+
+    // If there's a result, send it back to the client as JSON
+    if (result.rows.length > 0) {
+      res.json({ price: result.rows[0].price });
+    } else {
+      res.status(404).send('No data found');
+    }
+  } catch (err) {
+    console.error(err); // Log any errors to the console
+    res.status(500).send('Internal Server Error'); // Send a 500 status code for internal server errors
+  }
+});
+
 // Define a GET route for '/average' that takes 'category' as a query parameter
 app.get('/average', async (req, res) => {
   const { category } = req.query;
@@ -57,6 +82,8 @@ app.get('/average', async (req, res) => {
     res.status(500).send('Internal Server Error'); // Send a 500 status code for internal server errors
   }
 });
+
+
 
 app.get('/api/cheapest-price/:category', async (req, res) => {
   const category = req.params.category;
