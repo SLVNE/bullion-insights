@@ -58,6 +58,51 @@ app.get('/average', async (req, res) => {
   }
 });
 
+app.get('/api/cheapest-price/:category', async (req, res) => {
+  const category = req.params.category;
+
+  if (!category) {
+    return res.status(400).send('Missing category parameter');
+  }
+
+  try {
+    const query = `
+      SELECT price, vendor, date
+      FROM public.data
+      WHERE date = (
+        SELECT date
+        FROM (
+          SELECT date, COUNT(DISTINCT vendor) as vendor_count
+          FROM public.data
+          WHERE category = $1
+          GROUP BY date
+        ) as data_per_date
+        WHERE vendor_count = (
+          SELECT COUNT(DISTINCT vendor)
+          FROM public.data
+          WHERE category = $1
+        )
+        ORDER BY date DESC
+        LIMIT 1
+      )
+      AND category = $1
+      ORDER BY price ASC
+      LIMIT 1;
+    `;
+    const values = [category];
+    const result = await db.query(query, values);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).json({ message: 'No data found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Use the custom routes module for all other routes
 app.use('/', route);
 

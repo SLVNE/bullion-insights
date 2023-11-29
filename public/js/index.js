@@ -45,11 +45,48 @@ const getAveragePrice = async (category) => {
   }
 };
 
+const getCheapestPrice = async (category) => {
+  try {
+    const response = await fetch(`/api/cheapest-price/${category}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const price = Number(data.price).toFixed(2); // Round the price to two decimal places
+    const vendor = data.vendor;
+    const date = new Date(data.date).toLocaleDateString(); // Convert the date to a local date string
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+async function fillCoinData(metalType) {
+  // Define the coin types
+  const silverCoinTypes = ['silver-american-eagles', 'silver-canadian-maple-leafs', 'silver-austrian-philharmonics', 'silver-south-african-krugerrands', 'silver-australian-kangaroos'];
+  const goldCoinTypes = ['gold-american-eagles', 'gold-canadian-maple-leafs', 'gold-austrian-philharmonics', 'gold-south-african-krugerrands', 'gold-australian-kangaroos'];
+
+  const coinTypes = metalType === 'gold' ? goldCoinTypes : silverCoinTypes;
+
+  // For each coin type, call the getCheapestPrice function and fill the data
+  for (let i = 0; i < coinTypes.length; i++) {
+    const coinType = coinTypes[i];
+    const data = await getCheapestPrice(coinType);
+    document.getElementById(`price${i + 1}`).textContent = `Lowest Price: $${Number(data.price).toFixed(2)}`;
+    document.getElementById(`vendor${i + 1}`).textContent = `Vendor: ${data.vendor}`;
+    document.getElementById(`date${i + 1}`).textContent = `Date: ${new Date(data.date).toLocaleDateString()}`;
+  }
+}
+
+fillCoinData("silver");
+
 // Listen for changes on the radio buttons
 document.getElementsByName('metal').forEach(function(radio) {
     radio.addEventListener('change', function() {
       if (this.value === 'gold') {
-        getAveragePrice('gold')
+        getAveragePrice('gold');
+        fillCoinData("gold");
         // Change the categoryMapping to gold if the gold radio button is selected
         categoryMapping = {
           'option1': 'spot-gold',
@@ -60,7 +97,8 @@ document.getElementsByName('metal').forEach(function(radio) {
           'option6': 'gold-australian-kangaroos',
         };
       } else {
-        getAveragePrice('silver')
+        getAveragePrice('silver');
+        fillCoinData("silver");
         // Change the categoryMapping back to silver if the silver radio button is selected
         categoryMapping = {
           'option1': 'spot-silver',
@@ -197,7 +235,7 @@ const handleCheckboxChange = async (checkbox) => {
 
   chart.timeScale().fitContent();
 };
-  
+
   // Add event listeners to checkboxes
   for (let i = 1; i <= 6; i++) {
     const checkbox = document.getElementById(`option${i}`);
@@ -235,6 +273,14 @@ const handleCheckboxChange = async (checkbox) => {
           h3.style.color = '#C0C0C0';
         } else if (event.target.id === 'gold') {
           h3.style.color = 'gold';
+        }
+      });
+      const h5Elements = document.querySelectorAll('.coin-name');
+      h5Elements.forEach(h5 => {
+        if (event.target.id === 'silver') {
+          h5.style.color = '#C0C0C0';
+        } else if (event.target.id === 'gold') {
+          h5.style.color = 'gold';
         }
       });
     });
