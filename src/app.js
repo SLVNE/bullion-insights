@@ -71,8 +71,13 @@ app.get('/average', async (req, res) => {
       WHERE date = (
         SELECT MAX(date) 
         FROM public.data
-        WHERE category LIKE $1
-      ) AND category LIKE $1;
+        WHERE category LIKE $1 
+        AND vendor != 'spot'
+        AND category NOT IN ('all-gold-coins', '1-oz-gold-bars', '10-oz-gold-bars', '1-kg-gold-bars', 'gold-royal-britannias', 'silver-royal-britannias', '1-oz-silver-bars', '10-oz-silver-bars', '100-oz-silver-bars')
+      ) 
+      AND category LIKE $1 
+      AND vendor != 'spot'
+      AND category NOT IN ('all-gold-coins', '1-oz-gold-bars', '10-oz-gold-bars', '1-kg-gold-bars', 'gold-royal-britannias', 'silver-royal-britannias', '1-oz-silver-bars', '10-oz-silver-bars', '100-oz-silver-bars');
     `;
     const values = [category + '%'];
     const result = await db.query(query, values);
