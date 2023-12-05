@@ -312,9 +312,11 @@ const handleCheckboxChange = async (checkbox) => {
 
       const spotChartH3 = document.getElementById('spot-chart');
       if (event.target.id === 'silver') {
+        spotChartH3.textContent = 'SILVER SPOT CANDLESTICK CHART:';
         document.getElementById('tvchart-spot-silver').hidden = false;
         document.getElementById('tvchart-spot-gold').hidden = true;
       } else if (event.target.id === 'gold') {
+        spotChartH3.textContent = 'GOLD SPOT CANDLESTICK CHART:';
         document.getElementById('tvchart-spot-silver').hidden = true;
         document.getElementById('tvchart-spot-gold').hidden = false;
       }
