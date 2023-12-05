@@ -147,29 +147,26 @@ document.getElementsByName('metal').forEach(function(radio) {
 // Define a mapping from checkbox id to line series
 const lineSeriesMapping = {};
 
-// Sample function to fetch data from a CSV file and format it
-const getData = async () => {
-    // Fetch the CSV file
-    const res = await fetch("/js/data/data.csv");
-    // Convert the response to text
-    const resp = await res.text();
-    //console.log(resp);
-    // Split the text into rows
-    const cdata = resp.split('\n').map((row) => {
-        // Split each line by comma to get the individual fields
-        const [time, open, high, low, close] = row.split(',');
-        // Return an object with the fields converted to the appropriate types
-        return {
-          time: new Date(time).getTime() / 1000, // Convert time to Unix timestamp
-          open: open * 1, // Convert opening price to readable number
-          high: high * 1, // Convert daily high price to readable number
-          low: low * 1, // Convert daily low price to readable number
-          close: close * 1, // Convert closing price to readable number
-        };
-      });
-      // Return the formatted data
-      return cdata;
-      //console.log(cdata);
+const getData = async (metalType) => {
+  // Fetch the CSV file
+  const res = await fetch(`/js/data/${metalType}-data.csv`);
+  // Convert the response to text
+  const resp = await res.text();
+  // Split the text into rows
+  const cdata = resp.split('\n').map((row) => {
+    // Split each line by comma to get the individual fields
+    const [time, open, high, low, close] = row.split(',');
+    // Return an object with the fields converted to the appropriate types
+    return {
+      time: new Date(time).getTime() / 1000, // Convert time to Unix timestamp
+      open: open * 1, // Convert opening price to readable number
+      high: high * 1, // Convert daily high price to readable number
+      low: low * 1, // Convert daily low price to readable number
+      close: close * 1, // Convert closing price to readable number
+    };
+  });
+  // Return the formatted data
+  return cdata;
 }
 
 // Universal function to fetch data from the server using vendor and category as parameters
@@ -214,12 +211,19 @@ const displayChart = async () => {
         },
     };
 
-    const domElementReal = document.getElementById('tvchart-spot-gold');
-    const chartReal = LightweightCharts.createChart(domElementReal, candleChartProperties);
-    const candleseriesReal = chartReal.addCandlestickSeries();
-    const klinedataReal = await getData();
-    candleseriesReal.setData(klinedataReal);
-    chartReal.timeScale().fitContent();   
+    const domElementSpotSilver = document.getElementById('tvchart-spot-silver');
+    const chartSpotSilver = LightweightCharts.createChart(domElementSpotSilver, candleChartProperties);
+    const candleseriesSpotSilver = chartSpotSilver.addCandlestickSeries();
+    const klinedataSpotSilver = await getData("silver");
+    candleseriesSpotSilver.setData(klinedataSpotSilver);
+    chartSpotSilver.timeScale().fitContent();    
+
+    const domElementSpotGold = document.getElementById('tvchart-spot-gold');
+    const chartSpotGold = LightweightCharts.createChart(domElementSpotGold, candleChartProperties);
+    const candleseriesSpotGold = chartSpotGold.addCandlestickSeries();
+    const klinedataSpotGold = await getData("gold");
+    candleseriesSpotGold.setData(klinedataSpotGold);
+    chartSpotGold.timeScale().fitContent();  
 
     const domElement = document.getElementById('tvchart-real-gold');
     chart = LightweightCharts.createChart(domElement, lineChartProperties);
@@ -305,5 +309,14 @@ const handleCheckboxChange = async (checkbox) => {
           h5.style.color = 'gold';
         }
       });
+
+      const spotChartH3 = document.getElementById('spot-chart');
+      if (event.target.id === 'silver') {
+        document.getElementById('tvchart-spot-silver').hidden = false;
+        document.getElementById('tvchart-spot-gold').hidden = true;
+      } else if (event.target.id === 'gold') {
+        document.getElementById('tvchart-spot-silver').hidden = true;
+        document.getElementById('tvchart-spot-gold').hidden = false;
+      }
     });
   });
