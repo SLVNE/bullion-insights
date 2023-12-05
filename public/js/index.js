@@ -203,7 +203,7 @@ const displayChart = async () => {
     };
 
     const lineChartProperties = {
-        width: window.innerWidth * 0.9,
+        width: window.innerWidth * 0.95,
         height: 300,
         timescale: {
             timeVisible: true,
@@ -289,6 +289,24 @@ const handleCheckboxChange = async (checkbox) => {
       }
     }
     chart.timeScale().fitContent();
+  });
+
+  // Select all divs that should act like radio buttons
+  var divs = document.querySelectorAll('.flex-item');
+
+  // Add a click event listener to each div
+  divs.forEach(function(div) {
+    div.addEventListener('click', function(event) {
+      // don't set up any action for when the user click other regions as the views are not yet complete
+      event.preventDefault();
+      // Remove the 'active' class from all divs
+      divs.forEach(function(div) {
+        div.classList.remove('active');
+      });
+
+      // Add the 'active' class to the clicked div
+      this.classList.add('active');
+    });
   });
 
   document.querySelectorAll('.toggle-option input[type="radio"]').forEach((radio) => {
