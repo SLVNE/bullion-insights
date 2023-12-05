@@ -142,7 +142,7 @@ h5 {
     /*background-color: pink;*/
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-top: 0em; 
     margin-bottom: 1.2em;
     

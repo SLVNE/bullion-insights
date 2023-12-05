@@ -194,7 +194,7 @@ getAveragePrice('silver')
 
 const displayChart = async () => {
     const candleChartProperties = {
-        width: 1250,
+        width: window.innerWidth * 0.95,
         height: 300,
         timescale: {
             timeVisible: true,
@@ -203,7 +203,7 @@ const displayChart = async () => {
     };
 
     const lineChartProperties = {
-        width: 1250,
+        width: window.innerWidth * 0.9,
         height: 300,
         timescale: {
             timeVisible: true,
